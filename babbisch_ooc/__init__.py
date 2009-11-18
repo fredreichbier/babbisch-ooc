@@ -13,6 +13,7 @@ from babbisch.odict import odict
 from .wraplib.codegen import Codegen
 from .wraplib.ooc import Cover, Method, Function, Attribute, Class
 
+from .types import TYPE_MAP
 from .names import oocize_name, oocize_type
 
 class WTFError(Exception):
@@ -29,6 +30,22 @@ class OOClient(object):
         self.interface = interface
         #: odict {name: codegen} of *all* codegens.
         self.codegens = odict()
+        # fill in all primitive types
+        self.create_primitives()
+
+    def create_primitives(self):
+        """
+            update `self.objects`; add primitive types from TYPE_MAP.
+        """
+        for tag, ooc_name in TYPE_MAP.iteritems():
+            self.objects[tag] = {
+                                'class': 'Primitive',
+                                'tag': tag,
+                                'name': ooc_name,
+                                'ooc_name': ooc_name,
+                                'c_name': tag,
+                                'wrapped': True,
+                                }
 
     def add_wrapper(self, obj, wrapper):
         """
@@ -36,8 +53,10 @@ class OOClient(object):
             Do two things:
              1) set ``obj['wrapper'] = wrapper``
              2) append *wrapper* to `self.codegens`
+             3) set ``obj['wrapped'] = True``
         """
         obj['wrapper'] = self.codegens[wrapper.name] = wrapper
+        obj['wrapped'] = True
 
     def get_wrapper(self, tag):
         """
@@ -50,7 +69,7 @@ class OOClient(object):
             Return a boolean value that describes whether the object with
             the tag *tag* is wrapped or not.
         """
-        return 'wrapper' in self.objects[tag]
+        return self.objects[tag].get('wrapped', False)
 
     def run(self):
         """
@@ -95,6 +114,11 @@ class OOClient(object):
         else:
             name = obj['name']
 
+        if name.startswith('!Unnamed'):
+            name = name.replace('!', '')
+        elif name.startswith('!'):
+            raise WTFError('WTF is this? %s %r' % (args[0], obj))
+        
         def _struct():
             return 'Struct%s' % oocize_type(name)
 
@@ -158,30 +182,33 @@ class OOClient(object):
 
     def create_ooc_names(self):
         """
-            Generate ooc-suitable names for all objects in `self.objects`.
+            Generate ooc-suitable names for all objects in `self.objects`
+            (except primitives).
             They are stored inside the object as a new value; the key
             is ``ooc_name``.
         """
         for tag, obj in self.objects.iteritems():
-            # generate a name for it and save it.
-            name = self.generate_ooc_name(obj)
-            obj['ooc_name'] = name
+            if obj['class'] != 'Primitive':
+                # generate a name for it and save it.
+                name = self.generate_ooc_name(obj)
+                obj['ooc_name'] = name
 
     def create_c_names(self):
         """
-            Generate the C names for all objects in `self.objects`.
+            Generate the C names for all objects in `self.objects` (except
+            primitives).
             They are stored inside the object as a new value; the key is
             `c_name``.  If that is not possible (e.g. for unnamed structs),
             set ``c_name`` to ``None``.
         """
         for tag, obj in self.objects.iteritems():
-            # generate a name for it and save it.
-            try:
-                name = self.generate_c_name(obj)
-            except NamingImpossibleError:
-                name = None
-
-            obj['c_name'] = name
+            if obj['class'] != 'Primitive':
+                # generate a name for it and save it.
+                try:
+                    name = self.generate_c_name(obj)
+                except NamingImpossibleError:
+                    name = None
+                obj['c_name'] = name
 
     def generate_types(self):
         """
@@ -201,6 +228,7 @@ class OOClient(object):
         {
             'Struct': self.generate_struct,
             'Typedef': self.generate_typedef,
+            'Primitive': lambda x: None,
         }[obj['class']](obj)
 
     def generate_struct(self, obj):
@@ -226,13 +254,13 @@ class OOClient(object):
         """
         if self.is_wrapped(obj['target']):
             # already wrapped.
-            wrapper = Cover(obj['ooc_name'], self.get_wrapper(obj['target']).name)
+            wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
         else:
             # not wrapped.
             wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['c_name'])
         wrapper.modifiers = ('extern',)
         self.add_wrapper(obj, wrapper)
-        
+
 def main():
     interface = None
     try:

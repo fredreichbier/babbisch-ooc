@@ -79,9 +79,3 @@ TYPE_MAP = {
 #    'ptrdiff_t': 'c_ptrdiff_t',  # Requires definition in preamble
     'POINTER(STRUCT(locale_data))': 'Pointer', # evil!
 }
-
-class SimpleType(object):
-    def __init__(self, tag, name):
-        self.tag = tag
-        self.name = name
-
