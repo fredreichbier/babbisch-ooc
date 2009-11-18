@@ -94,6 +94,27 @@ class OOClient(object):
         """
         return Codegen()(self.codegens.values()).buf
 
+    def get_ooc_type(self, tag):
+        """
+            get the ooc type from the tag *tag*. It might be nested.
+            And might be a pointer. Or an array. Whatever! It can
+            be *anything*!
+        """
+        if tag in self.objects:
+            return self.objects[tag]['ooc_name']
+        else:
+            if '(' in tag:
+                mod, args = parse_string(tag)
+                
+                def _pointer():
+                    return self.get_ooc_type(translate(args[0])) + '*'
+
+                return {
+                    'POINTER': _pointer,
+                }[mod]()
+            else:
+                raise WTFError('WTF tag is this? %r' % tag)
+
     def generate_ooc_name(self, obj):
         """
             Return an appropriate ooc name for the object *obj*.
@@ -227,8 +248,9 @@ class OOClient(object):
         """
         {
             'Struct': self.generate_struct,
+            'Union': self.generate_union,
             'Typedef': self.generate_typedef,
-            'Primitive': lambda x: None,
+            'Primitive': lambda x: None, # yep, no-op
         }[obj['class']](obj)
 
     def generate_struct(self, obj):
@@ -236,15 +258,53 @@ class OOClient(object):
             Generate the wrapper for the babbisch struct *obj*.
         """
         if obj['c_name'] is None:
-            # TODO: what to do for unnamed structs? hmmmm ...
             wrapper = Cover(obj['ooc_name'])
         else:
             wrapper = Cover(obj['ooc_name'], obj['c_name'])
         # Yo, set everything up.
         wrapper.modifiers = ('extern',)
+        # Give me members!
+        for name, type, bitsize in obj['members']:
+            assert bitsize is None # TODO TODO TODO
+            new_name = oocize_name(name)
+            typename = ''
+            if new_name != name:
+                typename += 'extern(%s)' % (name or '_')
+            else:
+                typename += 'extern'
+            typename += ' %s' % self.get_ooc_type(type)
+            wrapper.add_member(Attribute(new_name, typename))
         # Wrappypappy!
         self.add_wrapper(obj, wrapper)
 
+    def generate_union(self, obj):
+        """
+            Generate the wrapper for the babbisch union *obj*.
+        """
+        if obj['c_name'] is None:
+            wrapper = Cover(obj['ooc_name'])
+        else:
+            wrapper = Cover(obj['ooc_name'], obj['c_name'])
+        # Yo, set everything up.
+        wrapper.modifiers = ('extern',)
+        # Give me members!
+        for name, type in obj['members']:
+            new_name = oocize_name(name)
+            typename = ''
+            if new_name != name:
+                typename += 'extern(%s)' % (name or '_')
+            else:
+                typename += 'extern'
+            typename += ' %s' % self.get_ooc_type(type)
+            wrapper.add_member(Attribute(new_name, typename))
+        # Wrappypappy!
+        self.add_wrapper(obj, wrapper)
+
+    def _add_members(self, wrapper, obj):
+        """
+            add the members of the compound babbisch object *obj*
+            to the wrapper *wrapper*. Works for structs and unions.
+        """
     def generate_typedef(self, obj):
         """
             Generate the wrapper for the babbisch typedef *obj*.
