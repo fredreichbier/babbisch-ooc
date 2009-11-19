@@ -70,7 +70,10 @@ class OOClient(object):
             Return a boolean value that describes whether the object with
             the tag *tag* is wrapped or not.
         """
-        return self.objects[tag].get('wrapped', False)
+        try:
+            return self.objects[tag]['wrapped']
+        except KeyError:
+            return False
 
     def run(self):
         """
@@ -85,6 +88,7 @@ class OOClient(object):
              5) Generate aaaaallllll code and return it as string.
 
         """
+        self.handle_opaque_types()
         self.create_ooc_names()
         self.create_c_names()
         self.generate_types()
@@ -97,28 +101,94 @@ class OOClient(object):
         """
         return Codegen()(self.codegens.values()).buf
 
+    def get_opaque_types(self):
+        """
+            yield tags of opaque (i.e. unknown) types.
+        """
+        for obj in self.objects.copy().itervalues():
+            # only handle typedefs ...
+            if obj['class'] == 'Typedef':
+                # get the first, typedef tag
+                tag = obj['target']
+                while '(' in tag:
+                    mod, args = parse_string(tag)
+                    # is it wrapping a struct or union that is unknown?
+                    if (mod in ('STRUCT', 'UNION')
+                        and tag not in self.objects):
+                        # then it's opaque.
+                        yield tag
+                        break
+                    # proceed.
+                    tag = translate(args[0])
+
+    def handle_opaque_types(self):
+        for tag in self.get_opaque_types():
+            mod, args = parse_string(tag)
+            # just create a "fake type".
+            self.objects[tag] = {
+                'tag': tag,
+                'class': {'STRUCT': 'Struct', 'UNION': 'Union'}[mod],
+                'name': args[0], # TODO?
+                'members': [],
+            }
+#            if mod == 'STRUCT':
+#                self.generate_struct(obj)
+#            else:
+#                self.generate_union(obj)
+
     def get_ooc_type(self, tag):
         """
             get the ooc type from the tag *tag*. It might be nested.
             And might be a pointer. Or an array. Whatever! It can
             be *anything*!
         """
+        # is it a real object?
         if tag in self.objects:
             return self.objects[tag]['ooc_name']
+        # nope. :(
         else:
             if '(' in tag:
                 mod, args = parse_string(tag)
                 
                 def _pointer():
-                    return self.get_ooc_type(translate(args[0])) + '*'
+                    # A pointer to a function type is a Func.
+                    try:
+                        if args[0][0] == 'FUNCTIONTYPE':
+                            return 'Func'
+                    except IndexError:
+                        pass
+                    try:
+                        return self.get_ooc_type(translate(args[0])) + '*'
+                    except WTFError:
+                        # That might work well for unknown types.
+                        # TODO: print a message to stderr
+                        return 'Pointer'
 
                 def _const():
                     return 'const %s' % self.get_ooc_type(translate(args[0]))
 
-                return {
-                    'POINTER': _pointer,
-                    'CONST': _const,
-                }[mod]()
+                def _array():
+                    # TODO: that looks incorrect.
+                    return self.get_ooc_type(translate(args[0])) + '*'
+
+                def _ignore():
+                    return self.get_ooc_type(translate(args[0]))
+
+                def _functiontype():
+                    return 'Func' # TODO: correct?
+
+                try:
+                    return {
+                        'POINTER': _pointer,
+                        'CONST': _const,
+                        'ARRAY': _array,
+                        'FUNCTIONTYPE': _functiontype,
+                        # Ignore `volatile` + `restrict` storage type.
+                        'VOLATILE': _ignore,
+                        'RESTRICT': _ignore,
+                    }[mod]()
+                except KeyError:
+                    raise WTFError('WTF tag is this? %r' % tag)
             else:
                 raise WTFError('WTF tag is this? %r' % tag)
 
@@ -301,11 +371,9 @@ class OOClient(object):
             wrapper = Cover(obj['ooc_name'])
         else:
             wrapper = Cover(obj['ooc_name'], obj['c_name'])
-        # Yo, set everything up.
-        wrapper.modifiers = ('extern',)
         # Give me members!
         for name, type, bitsize in obj['members']:
-            assert bitsize is None # TODO TODO TODO
+            #assert bitsize is None # TODO TODO TODO
             new_name = oocize_name(name)
             typename = ''
             if new_name != name:
@@ -325,8 +393,6 @@ class OOClient(object):
             wrapper = Cover(obj['ooc_name'])
         else:
             wrapper = Cover(obj['ooc_name'], obj['c_name'])
-        # Yo, set everything up.
-        wrapper.modifiers = ('extern',)
         # Give me members!
         for name, type in obj['members']:
             new_name = oocize_name(name)
@@ -357,7 +423,12 @@ class OOClient(object):
                 wrapper.modifiers = ('extern',)
         else:
             # not wrapped.
-            wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['c_name'])
+            if obj['target'] in self.objects:
+                target_name = self.objects[obj['target']]['c_name']
+            else:
+                # most likely a compound type.
+                target_name = self.get_ooc_type(obj['target'])
+            wrapper = Cover(obj['ooc_name'], target_name)
             wrapper.modifiers = ('extern',)
         self.add_wrapper(obj, wrapper)
 

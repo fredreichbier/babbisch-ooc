@@ -125,13 +125,8 @@ class Class(CodegenBase):
         line = '%s: class' % self.name
         if self.extends:
             line += ' extends %s' % self.extends
-        if self.members:
-            line += ' {'
-        code = [line]
-        if self.members:
-            code.extend([INDENT, self.members, DEDENT, '}'])
-        code.append('') # empty line :)
-        return code
+        line += ' {'
+        return ([line, INDENT, self.members, DEDENT, '}', ''])
 
     def add_member(self, member):
         self.members.append(member)
