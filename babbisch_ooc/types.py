@@ -3,6 +3,10 @@ TYPE_MAP = {
     'unsigned short int': 'UShort',
     'long long unsigned int': 'ULLong',
     'void': 'Void',
+    'bool': 'Bool',
+    'complex float': 'Float', # TODO
+    'complex double': 'Double', # TODO
+    'complex long double': 'LDouble', # TODO
     'signed int': 'Int',
     'unsigned int': 'UInt',
     'long int': 'Long',

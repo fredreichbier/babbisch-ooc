@@ -80,12 +80,14 @@ class OOClient(object):
              1) Create ooc names for all objects (:meth:`create_ooc_names`)
              2) Create C names for all objects (:meth:`create_c_name`)
              3) Generate code for types (structs, unions, enums, typedefs)
-             4) Generate aaaaallllll code and return it as string.
+             4) Generate code for functions
+             5) Generate aaaaallllll code and return it as string.
 
         """
         self.create_ooc_names()
         self.create_c_names()
         self.generate_types()
+        self.generate_functions()
         return self.generate_code()
 
     def generate_code(self):
@@ -109,8 +111,12 @@ class OOClient(object):
                 def _pointer():
                     return self.get_ooc_type(translate(args[0])) + '*'
 
+                def _const():
+                    return 'const %s' % self.get_ooc_type(translate(args[0]))
+
                 return {
                     'POINTER': _pointer,
+                    'CONST': _const,
                 }[mod]()
             else:
                 raise WTFError('WTF tag is this? %r' % tag)
@@ -239,6 +245,38 @@ class OOClient(object):
             if obj['class'] not in ('Function',):
                 self.generate_type(obj)
 
+    def generate_functions(self):
+        """
+            Generate code for all functions.
+        """
+        for tag, obj in self.objects.iteritems():
+            if obj['class'] in ('Function',):
+                self.generate_function(obj)
+
+    def generate_function(self, obj):
+        """
+            generate the code for this function!
+        """
+        name = oocize_name(obj['name'])
+        if obj['name'] == name:
+            mod = 'extern'
+        else:
+            mod = 'extern(%s)' % (obj['name'] or '_')
+        func = Function(name, modifiers=(mod,))
+        # create a method object and add all tags
+        for idx, (argname, argtype) in enumerate(obj['arguments']):
+            if argname.startswith('!Unnamed'):
+                argname = 'arg%d' % idx
+            argname = oocize_name(argname)
+            func.arguments[argname] = self.get_ooc_type(argtype)
+        # add varargs
+        if obj['varargs']:
+            func.varargs = True
+        # construct the glue code
+        func.rettype = self.get_ooc_type(obj['rettype'])
+        # yay, is a wrapper.
+        self.add_wrapper(obj, func)
+
     def generate_type(self, obj):
         """
             Generate code for the type described in the babbisch object *obj*.
@@ -300,11 +338,6 @@ class OOClient(object):
         # Wrappypappy!
         self.add_wrapper(obj, wrapper)
 
-    def _add_members(self, wrapper, obj):
-        """
-            add the members of the compound babbisch object *obj*
-            to the wrapper *wrapper*. Works for structs and unions.
-        """
     def generate_typedef(self, obj):
         """
             Generate the wrapper for the babbisch typedef *obj*.
