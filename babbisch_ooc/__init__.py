@@ -1,4 +1,5 @@
 import sys
+from operator import itemgetter
 
 import yaml
 
@@ -14,7 +15,7 @@ from .wraplib.codegen import Codegen
 from .wraplib.ooc import Cover, Method, Function, Attribute, Class
 
 from .types import TYPE_MAP
-from .names import oocize_name, oocize_type
+from .names import oocize_name, oocize_type, get_common_prefix
 
 class WTFError(Exception):
     pass
@@ -287,6 +288,7 @@ class OOClient(object):
         {
             'Struct': self.generate_struct,
             'Union': self.generate_union,
+            'Enum': self.generate_enum,
             'Typedef': self.generate_typedef,
             'Primitive': lambda x: None, # yep, no-op
         }[obj['class']](obj)
@@ -347,11 +349,31 @@ class OOClient(object):
         """
         if self.is_wrapped(obj['target']):
             # already wrapped.
-            wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
+            # Enums are wrapped as classes, so don't use a cover here!
+            if self.objects[obj['target']]['class'] == 'Enum':
+                wrapper = Class(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
+            else:
+                wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
+                wrapper.modifiers = ('extern',)
         else:
             # not wrapped.
             wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['c_name'])
-        wrapper.modifiers = ('extern',)
+            wrapper.modifiers = ('extern',)
+        self.add_wrapper(obj, wrapper)
+
+    def generate_enum(self, obj):
+        """
+            Generate the wrapper for the babbisch enum *obj*.
+        """
+        wrapper = Class(obj['ooc_name'])
+        # try to get a prefix
+        prefix = get_common_prefix(map(itemgetter(0), obj['members']))
+        #if not prefix:
+        #    print >>sys.stderr, "Could not find a common prefix for %s members" % obj['tag']
+        # add members
+        for name, value in obj['members']:
+            name = oocize_name(name[len(prefix):])
+            wrapper.add_member(Attribute(name, 'Int', str(value)))
         self.add_wrapper(obj, wrapper)
 
 def main():

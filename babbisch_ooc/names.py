@@ -78,3 +78,15 @@ def censor(name):
         return censor(name + '_')
     else:
         return name
+
+def get_common_prefix(names):
+    prefix = ''
+    first = names[0]
+    if len(names) < 2:
+        return prefix
+    while len(prefix) < len(first):
+        if all(n.startswith(prefix) for n in names):
+            prefix = first[:len(prefix)+1]
+        else:
+            break
+    return prefix[:-1]
