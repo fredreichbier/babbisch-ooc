@@ -130,6 +130,7 @@ class OOClient(object):
                 'class': {'STRUCT': 'Struct', 'UNION': 'Union'}[mod],
                 'name': args[0], # TODO?
                 'members': [],
+                'opaque': True,
             }
 #            if mod == 'STRUCT':
 #                self.generate_struct(obj)
@@ -142,8 +143,11 @@ class OOClient(object):
             And might be a pointer. Or an array. Whatever! It can
             be *anything*!
         """
+        # is it an enum? TODO: not here, please :(
+        if tag.startswith('ENUM('):
+            return 'Int'
         # is it a real object?
-        if tag in self.objects:
+        elif tag in self.objects:
             return self.objects[tag]['ooc_name']
         # nope. :(
         else:
@@ -190,7 +194,8 @@ class OOClient(object):
                 except KeyError:
                     raise WTFError('WTF tag is this? %r' % tag)
             else:
-                raise WTFError('WTF tag is this? %r' % tag)
+                #raise WTFError('WTF tag is this? %r' % tag)
+                return 'Pointer' # TODO: not so good
 
     def generate_ooc_name(self, obj):
         """
@@ -254,6 +259,12 @@ class OOClient(object):
                 raise NamingImpossibleError("Can't be named: %r" % obj)
             elif args[0].startswith('!'):
                 raise WTFError('WTF is this? %s %r' % (args[0], obj))
+
+            # Is it opaque? If yes, don't create a C name, please.
+            # Because if we do, it will appear in the C source, and
+            # *_class() will do a sizeof(), and everyone will be sad :(
+            if obj.get('opaque', False):
+                raise NamingImpossibleError("Can't be named: %r" % obj)
 
             # Okay. Please do it.
             def _struct():
@@ -420,7 +431,7 @@ class OOClient(object):
                 wrapper = Class(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
             else:
                 wrapper = Cover(obj['ooc_name'], self.objects[obj['target']]['ooc_name'])
-                wrapper.modifiers = ('extern',)
+                #wrapper.modifiers = ('extern',)
         else:
             # not wrapped.
             if obj['target'] in self.objects:
@@ -429,7 +440,7 @@ class OOClient(object):
                 # most likely a compound type.
                 target_name = self.get_ooc_type(obj['target'])
             wrapper = Cover(obj['ooc_name'], target_name)
-            wrapper.modifiers = ('extern',)
+            #wrapper.modifiers = ('extern',)
         self.add_wrapper(obj, wrapper)
 
     def generate_enum(self, obj):
