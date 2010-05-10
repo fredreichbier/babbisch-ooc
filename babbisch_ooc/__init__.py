@@ -106,7 +106,7 @@ class OOClient(object):
                     if pattern.match(filename):
                         ignore = True
                 if not ignore:
-                    headers.add(obj['coord']['file'])
+                    headers.add(filename)
         # Generate code.
         code = []
         for header in headers:
