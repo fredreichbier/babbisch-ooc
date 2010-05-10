@@ -1,4 +1,6 @@
 import sys
+import os.path
+import re
 from operator import itemgetter
 
 import yaml
@@ -17,6 +19,17 @@ from .wraplib.ooc import Cover, Method, Function, Attribute, Class
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
 
+
+IGNORED_HEADERS = map(re.compile,
+    [
+        '/usr/lib/gcc/.*',
+        '/usr/include/bits/.*',
+        '/usr/share/gccxml.*',
+        '/usr/include/std.*',
+        '/usr/include/_G_config.*',
+    ]
+)
+
 class WTFError(Exception):
     pass
 
@@ -25,6 +38,8 @@ class NamingImpossibleError(Exception):
 
 class OOClient(object):
     def __init__(self, objects, interface):
+        #: list of header names
+        self.headers = []
         #: odict of babbisch objects.
         self.objects = objects
         #: Dictionary containing the user-defined YAML interface.
@@ -75,19 +90,46 @@ class OOClient(object):
         except KeyError:
             return False
 
+    def collect_headers(self):
+        """
+            Iterate over all objects and collect header filenames.
+            Add the header codegen.
+            This will not be cross-platform. Therefore, TODO!
+        """
+        headers = set()
+        for obj in self.objects.itervalues():
+            if 'coord' in obj:
+                filename = obj['coord']['file']
+                # check if it should be ignored.
+                ignore = False
+                for pattern in IGNORED_HEADERS:
+                    if pattern.match(filename):
+                        ignore = True
+                if not ignore:
+                    headers.add(obj['coord']['file'])
+        # Generate code.
+        code = []
+        for header in headers:
+            name = os.path.splitext(header)[0]
+            code.append('include %s' % name)
+        code.append('')
+        self.codegens['!headers'] = code
+
     def run(self):
         """
             Run the binding generator.
 
             Generating object oriented bindings is done in these steps:
 
-             1) Create ooc names for all objects (:meth:`create_ooc_names`)
-             2) Create C names for all objects (:meth:`create_c_name`)
-             3) Generate code for types (structs, unions, enums, typedefs)
-             4) Generate code for functions
-             5) Generate aaaaallllll code and return it as string.
+             1) Collect header files
+             2) Create ooc names for all objects (:meth:`create_ooc_names`)
+             3) Create C names for all objects (:meth:`create_c_name`)
+             4) Generate code for types (structs, unions, enums, typedefs)
+             5) Generate code for functions
+             6) Generate aaaaallllll code and return it as string.
 
         """
+        self.collect_headers()
         self.handle_opaque_types()
         self.create_ooc_names()
         self.create_c_names()
