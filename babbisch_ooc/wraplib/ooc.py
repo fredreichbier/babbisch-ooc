@@ -131,3 +131,29 @@ class Class(CodegenBase):
     def add_member(self, member):
         self.members.append(member)
 
+class Enum(CodegenBase):
+    def __init__(self, name, modifiers=None):
+        self.name = name
+        self.values = odict()
+        if modifiers is None:
+            modifiers = []
+        self.modifiers = modifiers
+
+    def generate_code(self):
+        if self.modifiers:
+            line = '%s: %s enum' % (self.name, ' '.join(self.modifiers))
+        else:
+            line = '%s: enum' % self.name
+        line += ' {'
+        code = [line, INDENT]
+        for name, value in self.values.iteritems():
+            if value is None:
+                code.append(name)
+            else:
+                code.append('%s = %s' % (name, value))
+        code.extend([DEDENT, '}'])
+        return code
+
+    def add_value(self, name, value=None):
+        self.values[name] = value
+

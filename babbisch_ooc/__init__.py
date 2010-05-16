@@ -14,7 +14,7 @@ from babbisch.tag import translate, parse_string
 from babbisch.odict import odict
 
 from .wraplib.codegen import Codegen
-from .wraplib.ooc import Cover, Method, Function, Attribute, Class
+from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
@@ -293,7 +293,7 @@ class OOClient(object):
             impossible (e.g. for unnamed structs), raise ``NamingImpossibleError``.
         """
         # For structs and unions, it's just "struct %s" or "enum %s"
-        if obj['class'] in ('Struct', 'Union'):
+        if obj['class'] in ('Struct', 'Union', 'Enum'):
             mod, args = parse_string(obj['tag'])
 
             # Is it unnamed?
@@ -315,16 +315,17 @@ class OOClient(object):
             def _union():
                 return 'union %s' % obj['name']
 
+            def _enum():
+                return 'enum %s' % obj['name']
+
             return {
                 'Struct': _struct,
                 'Union': _union,
+                'Enum': _enum,
             }[obj['class']]()
         # For typedefs, it's just the tag (name).
         elif obj['class'] == 'Typedef':
             return obj['tag']
-        # For enums, it's `int`.
-        elif obj['class'] == 'Enum':
-            return 'int'
         # For functions, it's the name.
         elif obj['class'] == 'Function':
             return obj['name']
@@ -489,7 +490,7 @@ class OOClient(object):
         """
             Generate the wrapper for the babbisch enum *obj*.
         """
-        wrapper = Class(obj['ooc_name'])
+        wrapper = Enum(obj['ooc_name'], ['extern(%s)' % obj['name']])
         # try to get a prefix
         prefix = get_common_prefix(map(itemgetter(0), obj['members']))
         #if not prefix:
@@ -497,7 +498,7 @@ class OOClient(object):
         # add members
         for name, value in obj['members']:
             name = oocize_name(name[len(prefix):])
-            wrapper.add_member(Attribute(name, 'Int', str(value)))
+            wrapper.add_value(name, str(value))
         self.add_wrapper(obj, wrapper)
 
 def main():
