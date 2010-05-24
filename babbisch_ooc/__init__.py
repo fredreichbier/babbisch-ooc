@@ -6,7 +6,7 @@ from operator import itemgetter
 import yaml
 
 try:
-    import simplejson
+    import simplejson as json
 except ImportError:
     import json
 
@@ -18,7 +18,7 @@ from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
-
+#from .ooc import ObjectingFiddler
 
 IGNORED_HEADERS = map(re.compile,
     [
@@ -42,12 +42,25 @@ class OOClient(object):
         self.headers = []
         #: odict of babbisch objects.
         self.objects = objects
+        #: list of fiddlers
+        self.fiddlers = []
         #: Dictionary containing the user-defined YAML interface.
         self.interface = interface
         #: odict {name: codegen} of *all* codegens.
         self.codegens = odict()
         # fill in all primitive types
         self.create_primitives()
+
+    def push_fiddler(self, fiddler):
+        """
+            Push a fiddler. A fiddler is a function with this argument signature::
+
+                def fiddler(client)
+
+            The fiddler is called after all obligatory objects manipulations and is
+            free to modify the objects tree.
+        """
+        self.fiddlers.append(fiddler)
 
     def create_primitives(self):
         """
@@ -124,18 +137,27 @@ class OOClient(object):
              1) Collect header files
              2) Create ooc names for all objects (:meth:`create_ooc_names`)
              3) Create C names for all objects (:meth:`create_c_name`)
-             4) Generate code for types (structs, unions, enums, typedefs)
-             5) Generate code for functions
-             6) Generate aaaaallllll code and return it as string.
+             4) Invoke fiddlers
+             5) Generate code for types (structs, unions, enums, typedefs)
+             6) Generate code for functions
+             7) Generate aaaaallllll code and return it as string.
 
         """
         self.collect_headers()
         self.handle_opaque_types()
         self.create_ooc_names()
         self.create_c_names()
+        self.invoke_fiddlers()
         self.generate_types()
         self.generate_functions()
         return self.generate_code()
+
+    def invoke_fiddlers(self):
+        """
+            FIDDLE TIME!
+        """
+        for fiddler in self.fiddlers:
+            fiddler(self)
 
     def generate_code(self):
         """
@@ -490,7 +512,10 @@ class OOClient(object):
         """
             Generate the wrapper for the babbisch enum *obj*.
         """
-        wrapper = Enum(obj['ooc_name'], ['extern(%s)' % obj['name']])
+        if obj['c_name'] is not None:
+            wrapper = Enum(obj['ooc_name'], ['extern(%s)' % obj['name']])
+        else:
+            wrapper = Enum(obj['ooc_name'])
         # try to get a prefix
         prefix = get_common_prefix(map(itemgetter(0), obj['members']))
         #if not prefix:
