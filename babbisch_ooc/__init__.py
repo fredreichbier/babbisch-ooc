@@ -18,7 +18,7 @@ from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
-#from .ooc import ObjectingFiddler
+from .oo import ObjectingFiddler
 
 IGNORED_HEADERS = map(re.compile,
     [
@@ -87,11 +87,23 @@ class OOClient(object):
         obj['wrapper'] = self.codegens[wrapper.name] = wrapper
         obj['wrapped'] = True
 
+    def remove_wrapper(self, codegen):
+        """
+            This codegen should not generate code anymore.
+        """
+        del self.codegens[codegen.name]
+
     def get_wrapper(self, tag):
         """
             Get the wrapper of the object identified by the tag *tag*.
         """
         return self.objects[tag]['wrapper']
+
+    def get_wrapper_by_name(self, name):
+        """
+            Get the wrapper. I know its name.
+        """
+        return self.codegens[name]
 
     def is_wrapped(self, tag):
         """
@@ -147,9 +159,9 @@ class OOClient(object):
         self.handle_opaque_types()
         self.create_ooc_names()
         self.create_c_names()
-        self.invoke_fiddlers()
         self.generate_types()
         self.generate_functions()
+        self.invoke_fiddlers()
         return self.generate_code()
 
     def invoke_fiddlers(self):
@@ -543,5 +555,7 @@ def main():
             objects.update(json.load(f))
     # create an oo client
     client = OOClient(objects, interface)
+    client.push_fiddler(ObjectingFiddler())
     print client.run()
+
 
