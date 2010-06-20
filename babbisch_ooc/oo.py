@@ -80,8 +80,11 @@ class MethodModifier(yaml.YAMLObject, Modifier):
             pass
         print 'wuzziwuzzi. %r %r %r' % (owner, client, obj)
 
-class ObjectingFiddler(object):
-    def __call__(self, client):
+class OOInfo(object):
+    def __init__(self, client):
+        self.client = client
+
+    def _(self):
         for name, info in client.interface.get('Objects', {}).iteritems():
             # Make a from type.
             from_type = ''

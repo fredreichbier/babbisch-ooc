@@ -18,7 +18,7 @@ from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
-from .oo import ObjectingFiddler
+from .oo import OOInfo
 
 IGNORED_HEADERS = map(re.compile,
     [
@@ -40,27 +40,16 @@ class OOClient(object):
     def __init__(self, objects, interface):
         #: list of header names
         self.headers = []
+        #: object oriented information manager
+        self.ooinfo = OOInfo(self)
         #: odict of babbisch objects.
         self.objects = objects
-        #: list of fiddlers
-        self.fiddlers = []
         #: Dictionary containing the user-defined YAML interface.
         self.interface = interface
         #: odict {name: codegen} of *all* codegens.
         self.codegens = odict()
         # fill in all primitive types
         self.create_primitives()
-
-    def push_fiddler(self, fiddler):
-        """
-            Push a fiddler. A fiddler is a function with this argument signature::
-
-                def fiddler(client)
-
-            The fiddler is called after all obligatory objects manipulations and is
-            free to modify the objects tree.
-        """
-        self.fiddlers.append(fiddler)
 
     def create_primitives(self):
         """
@@ -149,10 +138,9 @@ class OOClient(object):
              1) Collect header files
              2) Create ooc names for all objects (:meth:`create_ooc_names`)
              3) Create C names for all objects (:meth:`create_c_name`)
-             4) Invoke fiddlers
-             5) Generate code for types (structs, unions, enums, typedefs)
-             6) Generate code for functions
-             7) Generate aaaaallllll code and return it as string.
+             4) Generate code for types (structs, unions, enums, typedefs)
+             5) Generate code for functions
+             6) Generate aaaaallllll code and return it as string.
 
         """
         self.collect_headers()
@@ -161,15 +149,7 @@ class OOClient(object):
         self.create_c_names()
         self.generate_types()
         self.generate_functions()
-        self.invoke_fiddlers()
         return self.generate_code()
-
-    def invoke_fiddlers(self):
-        """
-            FIDDLE TIME!
-        """
-        for fiddler in self.fiddlers:
-            fiddler(self)
 
     def generate_code(self):
         """
@@ -277,6 +257,8 @@ class OOClient(object):
         """
             Return an appropriate ooc name for the object *obj*.
 
+            If the user provides with a name in the interface, use this one.
+
             Structs
                 oocized typename, prefix ``'Struct'``
             Unions
@@ -293,11 +275,14 @@ class OOClient(object):
         else:
             name = obj['name']
 
+        if obj['tag'] in self.interface.get('Names', {}):
+            return self.interface['Names'][obj['tag']]
+
         if name.startswith('!Unnamed'):
             name = name.replace('!', '')
         elif name.startswith('!'):
             raise WTFError('WTF is this? %s %r' % (args[0], obj))
-        
+
         def _struct():
             return 'Struct%s' % oocize_type(name)
 
@@ -555,7 +540,6 @@ def main():
             objects.update(json.load(f))
     # create an oo client
     client = OOClient(objects, interface)
-    client.push_fiddler(ObjectingFiddler())
     print client.run()
 
 
