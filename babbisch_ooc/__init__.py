@@ -1,6 +1,7 @@
 import sys
 import os.path
 import re
+from collections import defaultdict
 from operator import itemgetter
 
 import yaml
@@ -36,6 +37,14 @@ class WTFError(Exception):
 class NamingImpossibleError(Exception):
     pass
 
+class MemberInfo(object):
+    def __init__(self, this_tag, **p):
+        self.this_tag = this_tag
+        self.__dict__.update(p)
+
+class MethodInfo(MemberInfo):
+    pass
+
 class OOClient(object):
     def __init__(self, objects, interface):
         #: list of header names
@@ -46,10 +55,28 @@ class OOClient(object):
         self.objects = objects
         #: Dictionary containing the user-defined YAML interface.
         self.interface = interface
+        #: Dictionary mapping tag types to artificial wrapper (ooc) names.
+        self.artificial = {}
+        #: Dictionary mapping entity tags to to MemberInfo instances.
+        self.members = {}
+        #: odict {name: codegen} of artificial wrappers getting merged in `run`
+        self._codegens = odict()
         #: odict {name: codegen} of *all* codegens.
         self.codegens = odict()
         # fill in all primitive types
         self.create_primitives()
+
+    def has_member_info(self, member_tag):
+        """
+            Return True if there is a member info for the member tagged `member_tag`.
+        """
+        return member_tag in self.members
+
+    def get_member_info(self, member_tag):
+        """
+            Return the member info for this member.
+        """
+        return self.members[member_tag]
 
     def create_primitives(self):
         """
@@ -64,6 +91,40 @@ class OOClient(object):
                                 'c_name': tag,
                                 'wrapped': True,
                                 }
+
+    def add_artificial_cover(self, name, c_type, c_tag, extends=''):
+        """
+            Add an artificial cover named *name* for the tag *c_tag*
+            (*c_type*) that extends *extends*. It will have priority
+            over any covers of the same name or of the same type.
+        """
+        self.artificial[c_tag] = name
+        self._codegens[name] = Cover(
+            name=name,
+            from_=c_type,
+            extends=extends,
+        )
+
+    def add_method(self, function_tag, method_name, this_tag, this_idx=0):
+        """
+            Make a function appear in the output as a method.
+
+            :Parameters:
+                `function_tag`
+                    Tag (name) of the function
+                `method_name`
+                    Desired method name.
+                `this_tag`
+                    Tag of the `this` type.
+                `this_idx`
+                    Index of the to-be-removed `this` argument.
+        """
+        self.members[function_tag] = MethodInfo(
+            this_tag=this_tag,
+            function_tag=function_tag,
+            name=method_name,
+            this_idx=this_idx,
+        )
 
     def add_wrapper(self, obj, wrapper):
         """
@@ -135,7 +196,7 @@ class OOClient(object):
 
             Generating object oriented bindings is done in these steps:
 
-             1) Collect header files
+             1) Collect header files and merge artificial wrappers.
              2) Create ooc names for all objects (:meth:`create_ooc_names`)
              3) Create C names for all objects (:meth:`create_c_name`)
              4) Generate code for types (structs, unions, enums, typedefs)
@@ -144,6 +205,7 @@ class OOClient(object):
 
         """
         self.collect_headers()
+        self.codegens.update(self._codegens)
         self.handle_opaque_types()
         self.create_ooc_names()
         self.create_c_names()
@@ -199,8 +261,11 @@ class OOClient(object):
             And might be a pointer. Or an array. Whatever! It can
             be *anything*!
         """
+        # is it artificial? if yes, we already have a type.
+        if tag in self.artificial:
+            return self.artificial[tag]
         # is it an enum? TODO: not here, please :(
-        if tag.startswith('ENUM('):
+        elif tag.startswith('ENUM('):
             return 'Int'
         # is it a real object?
         elif tag in self.objects:
@@ -418,8 +483,20 @@ class OOClient(object):
             func.varargs = True
         # construct the glue code
         func.rettype = self.get_ooc_type(obj['rettype'])
-        # yay, is a wrapper.
-        self.add_wrapper(obj, func)
+        # is it a method?
+        if self.has_member_info(obj['tag']):
+            # Yes! Make it a method.
+            member_info = self.get_member_info(obj['tag'])
+            # First, remove the "this" argument.
+            del func.arguments[func.arguments.keys()[member_info.this_idx]]
+            # Then, change the name.
+            func.name = member_info.name
+            # Now, add it to a class. No need to make a `Method` here. (TODO?)
+            this_wrapper = self.get_wrapper_by_name(member_info.this_tag)
+            this_wrapper.add_member(func)
+        else:
+            # yay, is a top-level wrapper.
+            self.add_wrapper(obj, func)
 
     def generate_type(self, obj):
         """
@@ -540,6 +617,8 @@ def main():
             objects.update(json.load(f))
     # create an oo client
     client = OOClient(objects, interface)
+    client.add_artificial_cover('Person', 'Person*', 'POINTER(Person)')
+    client.add_method('person_set_name', 'setName', 'Person', 0)
     print client.run()
 
 
