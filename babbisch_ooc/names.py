@@ -36,7 +36,7 @@ def oocize_type(name):
         name = '_' + name
     return censor(upper_first(name))
 
-KEYWORDS = 'class, cover, interface, implement, func, abstract, extends, from, this, super, new, const, final, static, include, import, use, extern, inline, proto, break, continue, fallthrough, operator, if, else, for, while, do, switch, case, as, in, version, return, true, false, null, default, match'.split(', ') + ["auto",
+KEYWORDS = 'class, cover, interface, implement, func, abstract, extends, from, this, super, const, final, static, include, import, use, extern, inline, proto, break, continue, fallthrough, operator, if, else, for, while, do, switch, case, as, in, version, return, true, false, null, default, match'.split(', ') + ["auto",
                 "break",
                 "case",
                 "char",

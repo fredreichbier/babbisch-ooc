@@ -1,0 +1,3204 @@
+[
+  [
+    "STRUCT(_Person)", 
+    {
+      "members": [
+        [
+          "name", 
+          "POINTER(char)", 
+          null
+        ], 
+        [
+          "age", 
+          "unsigned int", 
+          null
+        ]
+      ], 
+      "tag": "STRUCT(_Person)", 
+      "class": "Struct", 
+      "coord": {
+        "line": 1, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "name": "_Person"
+    }
+  ], 
+  [
+    "Person", 
+    {
+      "tag": "Person", 
+      "class": "Typedef", 
+      "coord": {
+        "line": 4, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "target": "STRUCT(_Person)"
+    }
+  ], 
+  [
+    "__builtin_nans", 
+    {
+      "name": "__builtin_nans", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 21, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_nans", 
+      "arguments": [
+        [
+          "str", 
+          "POINTER(CONST(char))"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_acosf", 
+    {
+      "name": "__builtin_acosf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 25, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_acosf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_acosl", 
+    {
+      "name": "__builtin_acosl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 26, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_acosl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "person_kill", 
+    {
+      "name": "person_kill", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 10, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "rettype": "void", 
+      "tag": "person_kill", 
+      "arguments": [
+        [
+          "self", 
+          "POINTER(Person)"
+        ], 
+        [
+          "other", 
+          "POINTER(Person)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_va_arg_pack", 
+    {
+      "name": "__builtin_va_arg_pack", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 145, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_va_arg_pack", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_log10", 
+    {
+      "name": "__builtin_log10", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 63, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_log10", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_popcountll", 
+    {
+      "name": "__builtin_popcountll", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 101, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_popcountll", 
+      "arguments": [
+        [
+          "arg0", 
+          "long long int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_clogf", 
+    {
+      "name": "__builtin_clogf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 111, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_clogf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_clogl", 
+    {
+      "name": "__builtin_clogl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 113, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_clogl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "person_set_name", 
+    {
+      "name": "person_set_name", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 7, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "rettype": "void", 
+      "tag": "person_set_name", 
+      "arguments": [
+        [
+          "self", 
+          "POINTER(Person)"
+        ], 
+        [
+          "name", 
+          "POINTER(char)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cexpf", 
+    {
+      "name": "__builtin_cexpf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 108, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_cexpf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cexpl", 
+    {
+      "name": "__builtin_cexpl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 110, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_cexpl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isless", 
+    {
+      "name": "__builtin_isless", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 141, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isless", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isnormal", 
+    {
+      "name": "__builtin_isnormal", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 138, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isnormal", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_asinf", 
+    {
+      "name": "__builtin_asinf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 28, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_asinf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_asinl", 
+    {
+      "name": "__builtin_asinl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 29, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_asinl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_popcount", 
+    {
+      "name": "__builtin_popcount", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 99, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_popcount", 
+      "arguments": [
+        [
+          "arg0", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_nansf", 
+    {
+      "name": "__builtin_nansf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 22, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_nansf", 
+      "arguments": [
+        [
+          "str", 
+          "POINTER(CONST(char))"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_nansl", 
+    {
+      "name": "__builtin_nansl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 23, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_nansl", 
+      "arguments": [
+        [
+          "str", 
+          "POINTER(CONST(char))"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_floorf", 
+    {
+      "name": "__builtin_floorf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 52, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_floorf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_floorl", 
+    {
+      "name": "__builtin_floorl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 53, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_floorl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctanf", 
+    {
+      "name": "__builtin_ctanf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 123, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_ctanf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctanh", 
+    {
+      "name": "__builtin_ctanh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 127, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_ctanh", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctanl", 
+    {
+      "name": "__builtin_ctanl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 125, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_ctanl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_carg", 
+    {
+      "name": "__builtin_carg", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 94, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_carg", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_clog", 
+    {
+      "name": "__builtin_clog", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 112, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_clog", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_logf", 
+    {
+      "name": "__builtin_logf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 66, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_logf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_logl", 
+    {
+      "name": "__builtin_logl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 67, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_logl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_fabs", 
+    {
+      "name": "__builtin_fabs", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 48, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_fabs", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_expf", 
+    {
+      "name": "__builtin_expf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 46, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_expf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_expl", 
+    {
+      "name": "__builtin_expl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 47, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_expl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isunordered", 
+    {
+      "name": "__builtin_isunordered", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 144, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isunordered", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csqrt", 
+    {
+      "name": "__builtin_csqrt", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 121, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_csqrt", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sin", 
+    {
+      "name": "__builtin_sin", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 75, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_sin", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ldexpf", 
+    {
+      "name": "__builtin_ldexpf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 60, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_ldexpf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ldexpl", 
+    {
+      "name": "__builtin_ldexpl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 61, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_ldexpl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_islessequal", 
+    {
+      "name": "__builtin_islessequal", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 142, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_islessequal", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tanf", 
+    {
+      "name": "__builtin_tanf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 85, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_tanf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tanh", 
+    {
+      "name": "__builtin_tanh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 86, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_tanh", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tanl", 
+    {
+      "name": "__builtin_tanl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 89, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_tanl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ceil", 
+    {
+      "name": "__builtin_ceil", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 36, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_ceil", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_fmodf", 
+    {
+      "name": "__builtin_fmodf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 54, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_fmodf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_fmodl", 
+    {
+      "name": "__builtin_fmodl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 55, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_fmodl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_return", 
+    {
+      "name": "__builtin_return", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 13, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "void", 
+      "tag": "__builtin_return", 
+      "arguments": [
+        [
+          "RESULT", 
+          "POINTER(void)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sqrt", 
+    {
+      "name": "__builtin_sqrt", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 81, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_sqrt", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cpow", 
+    {
+      "name": "__builtin_cpow", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 130, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_cpow", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ], 
+        [
+          "arg1", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_coshf", 
+    {
+      "name": "__builtin_coshf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 42, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_coshf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_coshl", 
+    {
+      "name": "__builtin_coshl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 43, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_coshl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cexp", 
+    {
+      "name": "__builtin_cexp", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 109, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_cexp", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atan2", 
+    {
+      "name": "__builtin_atan2", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 31, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_atan2", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ], 
+        [
+          "arg1", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_memchr", 
+    {
+      "name": "__builtin_memchr", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 12, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "POINTER(void)", 
+      "tag": "__builtin_memchr", 
+      "arguments": [
+        [
+          "arg0", 
+          "POINTER(CONST(void))"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ], 
+        [
+          "arg2", 
+          "unsigned int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atanf", 
+    {
+      "name": "__builtin_atanf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 34, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_atanf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atanl", 
+    {
+      "name": "__builtin_atanl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 35, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_atanl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctan", 
+    {
+      "name": "__builtin_ctan", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 124, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_ctan", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_log", 
+    {
+      "name": "__builtin_log", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 62, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_log", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isfinite", 
+    {
+      "name": "__builtin_isfinite", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 135, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isfinite", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_asin", 
+    {
+      "name": "__builtin_asin", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 27, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_asin", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_frexp", 
+    {
+      "name": "__builtin_frexp", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 56, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_frexp", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ], 
+        [
+          "arg1", 
+          "POINTER(int)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isgreaterequal", 
+    {
+      "name": "__builtin_isgreaterequal", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 140, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isgreaterequal", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_log10f", 
+    {
+      "name": "__builtin_log10f", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 64, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_log10f", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_log10l", 
+    {
+      "name": "__builtin_log10l", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 65, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_log10l", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctzl", 
+    {
+      "name": "__builtin_ctzl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 97, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_ctzl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_powif", 
+    {
+      "name": "__builtin_powif", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 73, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_powif", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_powil", 
+    {
+      "name": "__builtin_powil", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 74, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_powil", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_modff", 
+    {
+      "name": "__builtin_modff", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 68, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_modff", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "POINTER(float)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_exp", 
+    {
+      "name": "__builtin_exp", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 45, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_exp", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_modfl", 
+    {
+      "name": "__builtin_modfl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 69, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_modfl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "POINTER(long double)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_prefetch", 
+    {
+      "name": "__builtin_prefetch", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 17, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "void", 
+      "tag": "__builtin_prefetch", 
+      "arguments": [
+        [
+          "ADDR", 
+          "POINTER(CONST(void))"
+        ]
+      ], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tan", 
+    {
+      "name": "__builtin_tan", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 84, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_tan", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_fabsf", 
+    {
+      "name": "__builtin_fabsf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 49, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_fabsf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_fabsl", 
+    {
+      "name": "__builtin_fabsl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 50, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_fabsl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_inf", 
+    {
+      "name": "__builtin_inf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 18, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_inf", 
+      "arguments": [], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_frame_address", 
+    {
+      "name": "__builtin_frame_address", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 15, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "POINTER(void)", 
+      "tag": "__builtin_frame_address", 
+      "arguments": [
+        [
+          "LEVEL", 
+          "unsigned int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cabs", 
+    {
+      "name": "__builtin_cabs", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 91, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_cabs", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atan2f", 
+    {
+      "name": "__builtin_atan2f", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 32, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_atan2f", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atan2l", 
+    {
+      "name": "__builtin_atan2l", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 33, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_atan2l", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isinf", 
+    {
+      "name": "__builtin_isinf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 136, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isinf", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccoshf", 
+    {
+      "name": "__builtin_ccoshf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 105, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_ccoshf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccoshl", 
+    {
+      "name": "__builtin_ccoshl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 107, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_ccoshl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_atan", 
+    {
+      "name": "__builtin_atan", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 30, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_atan", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sinhf", 
+    {
+      "name": "__builtin_sinhf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 78, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_sinhf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sinhl", 
+    {
+      "name": "__builtin_sinhl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 79, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_sinhl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sqrtf", 
+    {
+      "name": "__builtin_sqrtf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 82, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_sqrtf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sqrtl", 
+    {
+      "name": "__builtin_sqrtl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 83, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_sqrtl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_frexpf", 
+    {
+      "name": "__builtin_frexpf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 57, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_frexpf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "POINTER(int)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_frexpl", 
+    {
+      "name": "__builtin_frexpl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 58, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_frexpl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "POINTER(int)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cpowf", 
+    {
+      "name": "__builtin_cpowf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 129, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_cpowf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ], 
+        [
+          "arg1", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cpowl", 
+    {
+      "name": "__builtin_cpowl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 131, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_cpowl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ], 
+        [
+          "arg1", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tanhf", 
+    {
+      "name": "__builtin_tanhf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 87, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_tanhf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_tanhl", 
+    {
+      "name": "__builtin_tanhl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 88, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_tanhl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cabsf", 
+    {
+      "name": "__builtin_cabsf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 90, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_cabsf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cabsl", 
+    {
+      "name": "__builtin_cabsl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 92, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_cabsl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_powf", 
+    {
+      "name": "__builtin_powf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 70, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_powf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ], 
+        [
+          "arg1", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_powi", 
+    {
+      "name": "__builtin_powi", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 72, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_powi", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_powl", 
+    {
+      "name": "__builtin_powl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 71, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_powl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ], 
+        [
+          "arg1", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccos", 
+    {
+      "name": "__builtin_ccos", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 103, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_ccos", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_expect", 
+    {
+      "name": "__builtin_expect", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 16, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long int", 
+      "tag": "__builtin_expect", 
+      "arguments": [
+        [
+          "EXP", 
+          "long int"
+        ], 
+        [
+          "C", 
+          "long int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_popcountl", 
+    {
+      "name": "__builtin_popcountl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 100, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_popcountl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "person_new", 
+    {
+      "name": "person_new", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 6, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "rettype": "POINTER(Person)", 
+      "tag": "person_new", 
+      "arguments": [
+        [
+          "name", 
+          "POINTER(char)"
+        ], 
+        [
+          "age", 
+          "unsigned int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_inff", 
+    {
+      "name": "__builtin_inff", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 19, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_inff", 
+      "arguments": [], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_infl", 
+    {
+      "name": "__builtin_infl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 20, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_infl", 
+      "arguments": [], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cos", 
+    {
+      "name": "__builtin_cos", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 39, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_cos", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctz", 
+    {
+      "name": "__builtin_ctz", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 96, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_ctz", 
+      "arguments": [
+        [
+          "arg0", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_return_address", 
+    {
+      "name": "__builtin_return_address", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 14, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "POINTER(void)", 
+      "tag": "__builtin_return_address", 
+      "arguments": [
+        [
+          "LEVEL", 
+          "unsigned int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isnan", 
+    {
+      "name": "__builtin_isnan", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 137, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isnan", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csinhf", 
+    {
+      "name": "__builtin_csinhf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 117, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_csinhf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csinhl", 
+    {
+      "name": "__builtin_csinhl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 119, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_csinhl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csqrtf", 
+    {
+      "name": "__builtin_csqrtf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 120, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_csqrtf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csqrtl", 
+    {
+      "name": "__builtin_csqrtl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 122, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_csqrtl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_floor", 
+    {
+      "name": "__builtin_floor", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 51, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_floor", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ldexp", 
+    {
+      "name": "__builtin_ldexp", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 59, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_ldexp", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ], 
+        [
+          "arg1", 
+          "int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccosf", 
+    {
+      "name": "__builtin_ccosf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 102, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_ccosf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccosh", 
+    {
+      "name": "__builtin_ccosh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 106, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_ccosh", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ccosl", 
+    {
+      "name": "__builtin_ccosl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 104, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_ccosl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_islessgreater", 
+    {
+      "name": "__builtin_islessgreater", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 143, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_islessgreater", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctanhf", 
+    {
+      "name": "__builtin_ctanhf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 126, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_ctanhf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctanhl", 
+    {
+      "name": "__builtin_ctanhl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 128, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_ctanhl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "person_cry", 
+    {
+      "name": "person_cry", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 9, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "rettype": "void", 
+      "tag": "person_cry", 
+      "arguments": [
+        [
+          "self", 
+          "POINTER(Person)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ceilf", 
+    {
+      "name": "__builtin_ceilf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 37, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_ceilf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ceill", 
+    {
+      "name": "__builtin_ceill", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 38, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_ceill", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csinf", 
+    {
+      "name": "__builtin_csinf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 114, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex float", 
+      "tag": "__builtin_csinf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csinh", 
+    {
+      "name": "__builtin_csinh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 118, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_csinh", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csinl", 
+    {
+      "name": "__builtin_csinl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 116, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex long double", 
+      "tag": "__builtin_csinl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_acos", 
+    {
+      "name": "__builtin_acos", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 24, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_acos", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_ctzll", 
+    {
+      "name": "__builtin_ctzll", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 98, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "int", 
+      "tag": "__builtin_ctzll", 
+      "arguments": [
+        [
+          "arg0", 
+          "long long int"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cargf", 
+    {
+      "name": "__builtin_cargf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 93, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_cargf", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cargl", 
+    {
+      "name": "__builtin_cargl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 95, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_cargl", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cosf", 
+    {
+      "name": "__builtin_cosf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 40, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_cosf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cosh", 
+    {
+      "name": "__builtin_cosh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 41, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_cosh", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_cosl", 
+    {
+      "name": "__builtin_cosl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 44, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_cosl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_isgreater", 
+    {
+      "name": "__builtin_isgreater", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 139, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "bool", 
+      "tag": "__builtin_isgreater", 
+      "arguments": [], 
+      "varargs": true, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "person_get_name", 
+    {
+      "name": "person_get_name", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 8, 
+        "file": "/home/fred/dev/ooc/codegen/test2/api.h"
+      }, 
+      "rettype": "POINTER(char)", 
+      "tag": "person_get_name", 
+      "arguments": [
+        [
+          "self", 
+          "POINTER(Person)"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sinf", 
+    {
+      "name": "__builtin_sinf", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 76, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "float", 
+      "tag": "__builtin_sinf", 
+      "arguments": [
+        [
+          "arg0", 
+          "float"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sinh", 
+    {
+      "name": "__builtin_sinh", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 77, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "double", 
+      "tag": "__builtin_sinh", 
+      "arguments": [
+        [
+          "arg0", 
+          "double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_sinl", 
+    {
+      "name": "__builtin_sinl", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 80, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "long double", 
+      "tag": "__builtin_sinl", 
+      "arguments": [
+        [
+          "arg0", 
+          "long double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ], 
+  [
+    "__builtin_csin", 
+    {
+      "name": "__builtin_csin", 
+      "storage": [
+        "extern"
+      ], 
+      "coord": {
+        "line": 115, 
+        "file": "/usr/share/gccxml-0.9/GCC/4.3/gccxml_builtins.h"
+      }, 
+      "rettype": "complex double", 
+      "tag": "__builtin_csin", 
+      "arguments": [
+        [
+          "arg0", 
+          "complex double"
+        ]
+      ], 
+      "varargs": false, 
+      "class": "Function"
+    }
+  ]
+]

@@ -1,0 +1,13 @@
+Files:
+    - api.json
+
+Objects:
+    Person:
+        tag: POINTER(Person)
+        type: Struct_Person*
+        methods:
+            by_name:
+                - person_(.*)
+        static_methods:
+            by_name:
+                - person_(new)

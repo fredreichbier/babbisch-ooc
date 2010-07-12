@@ -19,7 +19,7 @@ from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
-from .oo import OOInfo
+from .oo import apply_settings
 
 IGNORED_HEADERS = map(re.compile,
     [
@@ -49,8 +49,6 @@ class OOClient(object):
     def __init__(self, objects, interface):
         #: list of header names
         self.headers = []
-        #: object oriented information manager
-        self.ooinfo = OOInfo(self)
         #: odict of babbisch objects.
         self.objects = objects
         #: Dictionary containing the user-defined YAML interface.
@@ -65,6 +63,8 @@ class OOClient(object):
         self.codegens = odict()
         # fill in all primitive types
         self.create_primitives()
+        # do the settings yay
+        apply_settings(self)
 
     def has_member_info(self, member_tag):
         """
@@ -105,7 +105,7 @@ class OOClient(object):
             extends=extends,
         )
 
-    def add_method(self, function_tag, method_name, this_tag, this_idx=0):
+    def add_method(self, function_tag, method_name, this_tag, this_idx=0, static=False):
         """
             Make a function appear in the output as a method.
 
@@ -118,12 +118,15 @@ class OOClient(object):
                     Tag of the `this` type.
                 `this_idx`
                     Index of the to-be-removed `this` argument.
+                `static`
+                    Make it a static method?
         """
         self.members[function_tag] = MethodInfo(
             this_tag=this_tag,
             function_tag=function_tag,
             name=method_name,
             this_idx=this_idx,
+            static=static,
         )
 
     def add_wrapper(self, obj, wrapper):
@@ -133,9 +136,11 @@ class OOClient(object):
              1) set ``obj['wrapper'] = wrapper``
              2) append *wrapper* to `self.codegens`
              3) set ``obj['wrapped'] = True``
+            If there already is a wrapper of such name, don't do anything.
         """
-        obj['wrapper'] = self.codegens[wrapper.name] = wrapper
-        obj['wrapped'] = True
+        if wrapper.name not in self.codegens:
+            obj['wrapper'] = self.codegens[wrapper.name] = wrapper
+            obj['wrapped'] = True
 
     def remove_wrapper(self, codegen):
         """
@@ -471,7 +476,7 @@ class OOClient(object):
             mod = 'extern'
         else:
             mod = 'extern(%s)' % (obj['name'] or '_')
-        func = Function(name, modifiers=(mod,))
+        func = Function(name, modifiers=[mod])
         # create a method object and add all tags
         for idx, (argname, argtype) in enumerate(obj['arguments']):
             if argname.startswith('!Unnamed'):
@@ -487,8 +492,12 @@ class OOClient(object):
         if self.has_member_info(obj['tag']):
             # Yes! Make it a method.
             member_info = self.get_member_info(obj['tag'])
-            # First, remove the "this" argument.
-            del func.arguments[func.arguments.keys()[member_info.this_idx]]
+            if member_info.static:
+                # Yay make it static!
+                func.modifiers.append('static')
+            else:
+                # First, remove the "this" argument if it isn't static.
+                del func.arguments[func.arguments.keys()[member_info.this_idx]]
             # Then, change the name.
             func.name = member_info.name
             # Now, add it to a class. No need to make a `Method` here. (TODO?)
@@ -617,8 +626,6 @@ def main():
             objects.update(json.load(f))
     # create an oo client
     client = OOClient(objects, interface)
-    client.add_artificial_cover('Person', 'Person*', 'POINTER(Person)')
-    client.add_method('person_set_name', 'setName', 'Person', 0)
     print client.run()
 
 
