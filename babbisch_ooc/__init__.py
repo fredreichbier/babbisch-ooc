@@ -31,6 +31,12 @@ IGNORED_HEADERS = map(re.compile,
     ]
 )
 
+IGNORED_TAGS = map(re.compile,
+    [
+        '__builtin_.*',
+    ]
+)
+
 class WTFError(Exception):
     pass
 
@@ -451,12 +457,19 @@ class OOClient(object):
                     name = None
                 obj['c_name'] = name
 
+    def is_ignored_tag(self, tag):
+        """
+            Return True if *tag* should not be wrapped because `IGNORED_TAGS` says so.
+        """
+        return any(r.match(tag) for r in IGNORED_TAGS)
+
     def generate_types(self):
         """
-            Generate code for all types (e.g. everything but functions).
+            Generate code for all types (e.g. everything but functions),
+            but respect `IGNORED_TAGS`.
         """
         for tag, obj in self.objects.iteritems():
-            if obj['class'] not in ('Function',):
+            if (obj['class'] != 'Function' and not self.is_ignored_tag(tag)):
                 self.generate_type(obj)
 
     def generate_functions(self):
@@ -464,7 +477,7 @@ class OOClient(object):
             Generate code for all functions.
         """
         for tag, obj in self.objects.iteritems():
-            if obj['class'] in ('Function',):
+            if (obj['class'] == 'Function' and not self.is_ignored_tag(tag)):
                 self.generate_function(obj)
 
     def generate_function(self, obj):
