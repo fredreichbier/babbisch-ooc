@@ -1,46 +1,48 @@
 import re
 from .names import oocize_name
 
-def _get_matching_methods_by_name(client, object_name, matcher_info):
-    # Collect regexes.
-    regexes = []
-    for regex in matcher_info:
-        # User can give us the this index separated by a comma.
-        if ',' in regex:
-            # got this_idx
-            regex, this_idx = regex.split(',', 1)
-            this_idx = int(this_idx)
-        else:
-            this_idx = 0
-        regexes.append((re.compile(regex), this_idx))
-    # And collect!
-    for obj in client.objects.itervalues():
-        if obj['class'] == 'Function':
-            for r, this_idx in regexes:
-                match = r.match(obj['name'])
-                if match is not None:
-                    yield (obj, match.group(1), this_idx)
+import yaml
 
-METHOD_MATCHERS = {
-    'by_name': _get_matching_methods_by_name,
-}
+def _match_by_name(loader, node):
+    value = loader.construct_scalar(node)
+    if ',' in value:
+        regex, this_idx = regex.split(',', 1)
+        regex = re.compile(regex)
+        this_idx = int(this_idx)
+    else:
+        regex = re.compile(value)
+        this_idx = 0
+    def matches(client, obj):
+        match = regex.match(obj['name'])
+        if match is not None:
+            return (match.group(1), this_idx)
+        else:
+            return False
+    return matches
+
+yaml.add_constructor(u'!by_name', _match_by_name)
 
 def _apply_methods(client, object_name, object_info):
-    objects = set()
-    # Static methods!
-    for matcher, matcher_info in object_info.get('static_methods', {}).iteritems():
-        for obj, method_name, this_idx in METHOD_MATCHERS[matcher](client, object_name, matcher_info):
-            if obj['tag'] not in objects:
-                objects.add(obj['tag'])
-                # Add the method. We're just implicitly occizing the name. Evil, isn't it?
-                client.add_method(obj['name'], oocize_name(method_name), object_name, static=True)
-    # Methods!
-    for matcher, matcher_info in object_info.get('methods', {}).iteritems():
-        for obj, method_name, this_idx in METHOD_MATCHERS[matcher](client, object_name, matcher_info):
-            if obj['tag'] not in objects:
-                objects.add(obj['tag'])
-                # Add the method. We're just implicitly occizing the name. Evil, isn't it?
-                client.add_method(obj['name'], oocize_name(method_name), object_name, this_idx)
+    for obj in client.objects.itervalues():
+        if obj['class'] == 'Function':
+            wrapped = False
+            # Static methods!
+            for matcher in object_info.get('static_methods', ()):
+                result = matcher(client, obj)
+                if result:
+                    method_name, this_idx = result
+                    # Add the method. We're just implicitly occizing the name. Evil, isn't it?
+                    client.add_method(obj['name'], oocize_name(method_name), object_name, static=True)
+                    wrapped = True
+                    break
+            # Methods!
+            if not wrapped:
+                for matcher in object_info.get('methods', ()):
+                    result = matcher(client, obj)
+                    if result:
+                        method_name, this_idx = result
+                        # Add the method. We're just implicitly occizing the name. Evil, isn't it?
+                        client.add_method(obj['name'], oocize_name(method_name), object_name, this_idx)
 
 def apply_settings(client):
     """
