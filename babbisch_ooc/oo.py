@@ -4,13 +4,15 @@ from .names import oocize_name
 import yaml
 
 def _match_by_name(loader, node):
-    value = loader.construct_scalar(node)
-    if ',' in value:
-        regex, this_idx = regex.split(',', 1)
-        regex = re.compile(regex)
-        this_idx = int(this_idx)
+    """
+        This can be followed by a mapping or a string (as a short-hand).
+    """
+    if isinstance(node, yaml.nodes.MappingNode):
+        options = loader.construct_mapping(node)
+        regex = re.compile(options['regex'])
+        this_idx = int(options.get('this_idx', 0))
     else:
-        regex = re.compile(value)
+        regex = re.compile(loader.construct_scalar(node))
         this_idx = 0
     def matches(client, obj):
         match = regex.match(obj['name'])
