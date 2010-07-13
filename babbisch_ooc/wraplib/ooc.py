@@ -59,6 +59,37 @@ class Attribute(CodegenBase):
             line += ' = %s' % self.value
         return line
 
+class Property(CodegenBase):
+    def __init__(self, name, typename, getter=None, setter=None, static=False):
+        self.name = name
+        self.typename = typename
+        self.static = static
+        # getter (same for setter):
+        # - None => no getter
+        # - string => extern setter
+        # - otherwise (list) => code (not implemented yet)
+        self.getter = getter
+        self.setter = setter
+
+    def generate_code(self):
+        if self.static:
+            code = ['%s: static %s {' % (self.name, self.typename)]
+        else:
+            code = ['%s: %s {' % (self.name, self.typename)]
+        code.append(INDENT)
+        def _getset(value, name):
+            if value is None:
+                pass
+            elif isinstance(value, basestring):
+                code.append('%s: extern(%s)' % (name, value))
+            else:
+                raise NotImplementedError()
+        _getset(self.getter, 'get')
+        _getset(self.setter, 'set')
+        code.append(DEDENT)
+        code.append('}')
+        return code
+
 class Cover(CodegenBase):
     def __init__(self, name, from_='', extends='', modifiers=None):
         self.name = name

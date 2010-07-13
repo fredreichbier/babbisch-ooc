@@ -69,6 +69,17 @@ def _apply_methods(client, object_name, object_info):
                         # Add the method. We're just implicitly occizing the name. Evil, isn't it?
                         client.add_method(obj['name'], oocize_name(method_name), object_name, this_idx)
 
+def _apply_properties(client, object_name, object_info):
+    for name, prop_info in object_info.get('properties', {}).iteritems():
+        client.add_property(
+            object_name,
+            name,
+            prop_info['type'],
+            prop_info.get('getter'),
+            prop_info.get('setter'),
+            prop_info.get('static', False)
+        )
+
 def apply_settings(client):
     """
         Apply all oo settings.
@@ -78,3 +89,5 @@ def apply_settings(client):
         client.add_artificial_cover(object_name, info['type'], info['tag'], info.get('extends', ''))
         # Add methods.
         _apply_methods(client, object_name, info)
+        # Properties.
+        _apply_properties(client, object_name, info)

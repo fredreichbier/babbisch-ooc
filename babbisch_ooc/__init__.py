@@ -15,7 +15,7 @@ from babbisch.tag import translate, parse_string
 from babbisch.odict import odict
 
 from .wraplib.codegen import Codegen
-from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum
+from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum, Property
 
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
@@ -44,11 +44,13 @@ class NamingImpossibleError(Exception):
     pass
 
 class MemberInfo(object):
-    def __init__(self, this_tag, **p):
-        self.this_tag = this_tag
+    def __init__(self, **p):
         self.__dict__.update(p)
 
 class MethodInfo(MemberInfo):
+    pass
+
+class PropertyInfo(MemberInfo):
     pass
 
 class OOClient(object):
@@ -61,8 +63,10 @@ class OOClient(object):
         self.interface = interface
         #: Dictionary mapping tag types to artificial wrapper (ooc) names.
         self.artificial = {}
-        #: Dictionary mapping entity tags to to MemberInfo instances.
-        self.members = {}
+        #: Dictionary mapping entity tags to MemberInfo instances.
+        self.methods = {}
+        #: Dictionay mapping entity tags to dictionaries mapping property names to MemberInfo instances.
+        self.properties = defaultdict(dict)
         #: odict {name: codegen} of artificial wrappers getting merged in `run`
         self._codegens = odict()
         #: odict {name: codegen} of *all* codegens.
@@ -71,18 +75,6 @@ class OOClient(object):
         self.create_primitives()
         # do the settings yay
         apply_settings(self)
-
-    def has_member_info(self, member_tag):
-        """
-            Return True if there is a member info for the member tagged `member_tag`.
-        """
-        return member_tag in self.members
-
-    def get_member_info(self, member_tag):
-        """
-            Return the member info for this member.
-        """
-        return self.members[member_tag]
 
     def create_primitives(self):
         """
@@ -127,12 +119,39 @@ class OOClient(object):
                 `static`
                     Make it a static method?
         """
-        self.members[function_tag] = MethodInfo(
+        self.methods[function_tag] = MethodInfo(
             this_tag=this_tag,
             function_tag=function_tag,
             name=method_name,
             this_idx=this_idx,
             static=static,
+        )
+
+    def add_property(self, this_name, property_name, type, getter_name=None, setter_name=None, static=False):
+        """
+            Make a property.
+
+            :Parameters:
+                `this_name`
+                    Name of the `this` class.
+                `property_name`
+                    Name of the to-be-created property.
+                `type`
+                    Name (not tag!) of the property type.
+                `getter_name`
+                    Name of the getter function.
+                `setter_name`
+                    Name of the setter function.
+                `static`
+                    Is it static?
+        """
+        self.properties[this_name][property_name] = PropertyInfo(
+            this_name=this_name,
+            type=type,
+            property_name=property_name,
+            getter=getter_name,
+            setter=setter_name,
+            static=static
         )
 
     def add_wrapper(self, obj, wrapper):
@@ -212,7 +231,8 @@ class OOClient(object):
              3) Create C names for all objects (:meth:`create_c_name`)
              4) Generate code for types (structs, unions, enums, typedefs)
              5) Generate code for functions
-             6) Generate aaaaallllll code and return it as string.
+             6) Handle properties!
+             7) Generate aaaaallllll code and return it as string.
 
         """
         self.collect_headers()
@@ -222,6 +242,7 @@ class OOClient(object):
         self.create_c_names()
         self.generate_types()
         self.generate_functions()
+        self.handle_properties()
         return self.generate_code()
 
     def generate_code(self):
@@ -249,6 +270,14 @@ class OOClient(object):
                         break
                     # proceed.
                     tag = translate(args[0])
+
+    def handle_properties(self):
+        # Properties?
+        for object_name, properties in self.properties.iteritems():
+            wrapper = self.get_wrapper_by_name(object_name)
+            for property_name, info in properties.iteritems():
+                prop = Property(property_name, info.type, info.getter, info.setter, info.static)
+                wrapper.add_member(prop)
 
     def handle_opaque_types(self):
         for tag in self.get_opaque_types():
@@ -502,9 +531,9 @@ class OOClient(object):
         # construct the glue code
         func.rettype = self.get_ooc_type(obj['rettype'])
         # is it a method?
-        if self.has_member_info(obj['tag']):
+        if obj['tag'] in self.methods:
             # Yes! Make it a method.
-            member_info = self.get_member_info(obj['tag'])
+            member_info = self.methods[obj['tag']]
             if member_info.static:
                 # Yay make it static!
                 func.modifiers.append('static')
@@ -561,6 +590,7 @@ class OOClient(object):
         """
             Generate the wrapper for the babbisch union *obj*.
         """
+        # TODO: properties?
         if obj['c_name'] is None:
             wrapper = Cover(obj['ooc_name'])
         else:

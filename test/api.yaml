@@ -12,3 +12,8 @@ Objects:
               tag: 'POINTER(Person)'
         static_methods:
             - !by_name 'person_(new)'
+        properties:
+            name:
+                type: String
+                getter: person_get_name
+                setter: person_set_name 
