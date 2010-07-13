@@ -22,7 +22,30 @@ def _match_by_name(loader, node):
             return False
     return matches
 
+def _match_by_tag(loader, node):
+    """
+        Mapping or string, baby.
+    """
+    if isinstance(node, yaml.nodes.MappingNode):
+        options = loader.construct_mapping(node)
+        tag = options['tag']
+        this_idx = int(options.get('this_idx', 0))
+        name_regex = re.compile(options['name_regex'])
+    else:
+        tag = loader.construct_scalar(node)
+        this_idx = 0
+        name_regex = re.compile('.*')
+    def matches(client, obj):
+        if len(obj['arguments']) <= this_idx:
+            return False
+        elif obj['arguments'][this_idx][1] == tag:
+            return (name_regex.match(obj['name']).group(1), this_idx)
+        else:
+            return False
+    return matches
+
 yaml.add_constructor(u'!by_name', _match_by_name)
+yaml.add_constructor(u'!by_tag', _match_by_tag)
 
 def _apply_methods(client, object_name, object_info):
     for obj in client.objects.itervalues():

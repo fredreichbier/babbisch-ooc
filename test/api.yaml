@@ -6,8 +6,9 @@ Objects:
         tag: POINTER(Person)
         type: Struct_Person*
         methods:
-            - !by_name
-              regex: 'person_(.*)'
+            - !by_tag
+              name_regex: 'person_(.*)'
               this_idx: 0
+              tag: 'POINTER(Person)'
         static_methods:
             - !by_name 'person_(new)'
