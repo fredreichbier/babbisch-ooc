@@ -128,7 +128,7 @@ def make_check_func(errors):
 def make_check_exception():
     cls = Class('Failure', 'Exception')
     init = Method('init~withCode', args=odict([('code', 'String')]))
-#    init.code.append('super(code)')
+    init.code.append('super(code)')
     cls.add_member(init)
     return cls
 
@@ -140,4 +140,7 @@ def errorize_function(client, name, wrapper, checking_func=ERROR_CHECKING_FUNCTI
     wrapper.code = [
             'return %s(%s(%s))' % (checking_func, name, ', '.join(wrapper.arguments.iterkeys())),
     ]
+    for mod in wrapper.modifiers[:]:
+        if mod.startswith('extern'):
+            wrapper.modifiers.remove(mod)
     client.generate_function(client.objects[name], True)
