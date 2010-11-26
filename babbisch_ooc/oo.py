@@ -1,5 +1,7 @@
 import re
+from babbisch.odict import odict
 from .names import oocize_name
+from .wraplib.ooc import INDENT, DEDENT, Function, Class, Method
 
 import yaml
 
@@ -91,3 +93,51 @@ def apply_settings(client):
         _apply_methods(client, object_name, info)
         # Properties.
         _apply_properties(client, object_name, info)
+    apply_errors(client)
+
+def apply_errors(client):
+    if 'Errors' in client.interface:
+        # add check func / exeption
+        cls = make_check_exception()
+        client._codegens[cls.name] = cls
+        func = make_check_func(client.interface['Errors'].get('names', []))
+        client._codegens[func.name] = func
+        # mark checked functions
+        matchers = client.interface['Errors'].get('functions', [])
+        for obj in client.objects.itervalues():
+            if obj['class'] == 'Function':
+                for matcher in matchers:
+                    result = matcher(client, obj)
+                    if result:
+                        client.checked_functions.append(obj['name'])
+
+ERROR_CHECKING_FUNCTION = '_checkError'
+
+def make_check_func(errors):
+    func = Function(ERROR_CHECKING_FUNCTION, args=odict([('code', 'Int')]), rettype='Int')
+    func.code.extend([
+        'if(code != 0) {', INDENT,
+            'Failure new(match(code) {', INDENT
+    ])
+    for error in errors:
+        func.code.append('case %s => "%s"' % (error, error))
+    func.code.extend(['case => code toString()', DEDENT, '}) throw()', DEDENT, '}',
+                      'return code'])
+    return func
+
+def make_check_exception():
+    cls = Class('Failure', 'Exception')
+    init = Method('init~withCode', args=odict([('code', 'String')]))
+#    init.code.append('super(code)')
+    cls.add_member(init)
+    return cls
+
+def errorize_function(client, name, wrapper, checking_func=ERROR_CHECKING_FUNCTION):
+    """
+        Make the function *wrapper* wrap all errors.
+    """
+    assert not wrapper.code
+    wrapper.code = [
+            'return %s(%s(%s))' % (checking_func, name, ', '.join(wrapper.arguments.iterkeys())),
+    ]
+    client.generate_function(client.objects[name], True)

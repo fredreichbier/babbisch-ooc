@@ -71,7 +71,7 @@ KEYWORDS = 'class, cover, interface, implement, func, abstract, extends, from, t
                 "_Imaginary",
                 "_Complex",
                 "_Bool",
-                "restrict", "Func", "NULL", "TRUE", "FALSE", "bool"]
+                "restrict", "Func", "NULL", "TRUE", "FALSE", "bool", 'String']
 
 def censor(name):
     if name in KEYWORDS:

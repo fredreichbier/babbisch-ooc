@@ -16,10 +16,9 @@ from babbisch.odict import odict
 
 from .wraplib.codegen import Codegen
 from .wraplib.ooc import Cover, Method, Function, Attribute, Class, Enum, Property
-
 from .types import TYPE_MAP
 from .names import oocize_name, oocize_type, get_common_prefix
-from .oo import apply_settings
+from . import oo
 
 IGNORED_HEADERS = map(re.compile,
     [
@@ -73,8 +72,10 @@ class OOClient(object):
         self.codegens = odict()
         # fill in all primitive types
         self.create_primitives()
+        #: list of all function names whose return codes should be checked
+        self.checked_functions = []
         # do the settings yay
-        apply_settings(self)
+        oo.apply_settings(self)
 
     def create_primitives(self):
         """
@@ -97,7 +98,7 @@ class OOClient(object):
             over any covers of the same name or of the same type.
         """
         self.artificial[c_tag] = name
-        self._codegens[name] = Cover(
+        self._codegens[name] = wrapper = Cover(
             name=name,
             from_=c_type,
             extends=extends,
@@ -232,7 +233,8 @@ class OOClient(object):
              4) Generate code for types (structs, unions, enums, typedefs)
              5) Generate code for functions
              6) Handle properties!
-             7) Generate aaaaallllll code and return it as string.
+             7) Handle errors!
+             8) Generate aaaaallllll code and return it as string.
 
         """
         self.collect_headers()
@@ -243,6 +245,7 @@ class OOClient(object):
         self.generate_types()
         self.generate_functions()
         self.handle_properties()
+        self.handle_errors()
         return self.generate_code()
 
     def generate_code(self):
@@ -278,6 +281,12 @@ class OOClient(object):
             for property_name, info in properties.iteritems():
                 prop = Property(property_name, info.type, info.getter, info.setter, info.static)
                 wrapper.add_member(prop)
+
+    def handle_errors(self):
+        # Yay errors.
+        for function_name in self.checked_functions:
+            wrapper = self.get_wrapper(function_name)
+            oo.errorize_function(self, function_name, wrapper)
 
     def handle_opaque_types(self):
         for tag in self.get_opaque_types():
@@ -509,11 +518,12 @@ class OOClient(object):
             if (obj['class'] == 'Function' and not self.is_ignored_tag(tag)):
                 self.generate_function(obj)
 
-    def generate_function(self, obj):
+    def generate_function(self, obj, force=False):
         """
             generate the code for this function!
+            :param force: used if we need a simple 1:1 wrapper without method / name mangling stuff
         """
-        name = oocize_name(obj['name'])
+        name = oocize_name(obj['name']) if not force else obj['name']
         if obj['name'] == name:
             mod = 'extern'
         else:
@@ -531,7 +541,7 @@ class OOClient(object):
         # construct the glue code
         func.rettype = self.get_ooc_type(obj['rettype'])
         # is it a method?
-        if obj['tag'] in self.methods:
+        if (obj['tag'] in self.methods and not force):
             # Yes! Make it a method.
             member_info = self.methods[obj['tag']]
             if member_info.static:
@@ -540,6 +550,7 @@ class OOClient(object):
             else:
                 # First, remove the "this" argument if it isn't static.
                 del func.arguments[func.arguments.keys()[member_info.this_idx]]
+            obj['wrapper'] = func
             # Then, change the name.
             func.name = member_info.name
             # Now, add it to a class. No need to make a `Method` here. (TODO?)
