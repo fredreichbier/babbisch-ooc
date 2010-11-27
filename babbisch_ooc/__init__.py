@@ -646,6 +646,7 @@ class OOClient(object):
                 target_name = self.get_ooc_type(obj['target'])
             wrapper = Cover(obj['ooc_name'], target_name)
             #wrapper.modifiers = ('extern',)
+        wrapper.extends = wrapper.from_
         self.add_wrapper(obj, wrapper)
 
     def generate_enum(self, obj):
