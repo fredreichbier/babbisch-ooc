@@ -109,7 +109,7 @@ def apply_errors(client):
                 for matcher in matchers:
                     result = matcher(client, obj)
                     if result:
-                        client.checked_functions.append(obj['name'])
+                        client.checked_functions.add(obj['name'])
 
 ERROR_CHECKING_FUNCTION = '_checkError'
 
@@ -137,8 +137,12 @@ def errorize_function(client, name, wrapper, checking_func=ERROR_CHECKING_FUNCTI
         Make the function *wrapper* wrap all errors.
     """
     assert not wrapper.code
+    argnames = wrapper.arguments.keys()
+    info = getattr(wrapper, 'info', None)
+    if (info is not None and 'static' not in wrapper.modifiers):
+        argnames.insert(info.this_idx, 'this')
     wrapper.code = [
-            'return %s(%s(%s))' % (checking_func, name, ', '.join(wrapper.arguments.iterkeys())),
+            'return %s(%s(%s))' % (checking_func, name, ', '.join(argnames)),
     ]
     for mod in wrapper.modifiers[:]:
         if mod.startswith('extern'):

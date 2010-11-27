@@ -73,7 +73,7 @@ class OOClient(object):
         # fill in all primitive types
         self.create_primitives()
         #: list of all function names whose return codes should be checked
-        self.checked_functions = []
+        self.checked_functions = set()
         # do the settings yay
         oo.apply_settings(self)
 
@@ -284,8 +284,10 @@ class OOClient(object):
 
     def handle_errors(self):
         # Yay errors.
+        wrappers = []
         for function_name in self.checked_functions:
-            wrapper = self.get_wrapper(function_name)
+            wrappers.append((function_name, self.get_wrapper(function_name)))
+        for function_name, wrapper in wrappers:
             oo.errorize_function(self, function_name, wrapper)
 
     def handle_opaque_types(self):
@@ -553,6 +555,7 @@ class OOClient(object):
             obj['wrapper'] = func
             # Then, change the name.
             func.name = member_info.name
+            func.info = member_info
             # Now, add it to a class. No need to make a `Method` here. (TODO?)
             this_wrapper = self.get_wrapper_by_name(member_info.this_tag)
             this_wrapper.add_member(func)
