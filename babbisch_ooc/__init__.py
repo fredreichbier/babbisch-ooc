@@ -60,6 +60,9 @@ class OOClient(object):
         self.objects = objects
         #: Dictionary containing the user-defined YAML interface.
         self.interface = interface
+        #: list of script functions
+        self.scripts = []
+        self.load_scripts() # load 'em
         #: Dictionary mapping tag types to artificial wrapper (ooc) names.
         self.artificial = {}
         #: Dictionary mapping entity tags to MemberInfo instances.
@@ -76,6 +79,22 @@ class OOClient(object):
         self.checked_functions = set()
         # do the settings yay
         oo.apply_settings(self)
+
+    def load_scripts(self):
+        """
+            Load all scripts of da interface!
+        """
+        for filename in self.interface.get('Scripts', []):
+            glob, loc = {}, {}
+            execfile(filename, glob, loc)
+            self.scripts.append(loc['process'])
+
+    def process_scripts(self):
+        """
+            Let the scripts do their stuff!
+        """
+        for script in self.scripts:
+            script(self)
 
     def create_primitives(self):
         """
@@ -234,7 +253,8 @@ class OOClient(object):
              5) Generate code for functions
              6) Handle properties!
              7) Handle errors!
-             8) Generate aaaaallllll code and return it as string.
+             8) Process scripts!
+             9) Generate aaaaallllll code and return it as string.
 
         """
         self.collect_headers()
@@ -246,6 +266,7 @@ class OOClient(object):
         self.generate_functions()
         self.handle_properties()
         self.handle_errors()
+        self.process_scripts()
         return self.generate_code()
 
     def generate_code(self):
